@@ -11,6 +11,10 @@ if (NOT OPENSSL_CMAC_HEADER)
 endif (NOT OPENSSL_CMAC_HEADER)
 
 add_definitions(-Wall -Wextra -Werror -O2)
+add_executable(aes_example
+  src/aes_example.c)
+target_link_libraries(aes_example ${OPENSSL_LIBRARIES})
+
 add_executable(cmac_example
   src/cmac_example.c)
 target_link_libraries(cmac_example ${OPENSSL_LIBRARIES})
