@@ -27,10 +27,11 @@ static unsigned char cipher[AES_BLOCK_SIZE];
 int main(void)
 {
   int out_length;
+  unsigned char garbage[AES_BLOCK_SIZE];
 
   EVP_EncryptInit(&ctx, EVP_aes_128_ecb(), key, NULL);
   EVP_EncryptUpdate(&ctx, cipher, &out_length, plain, sizeof(plain));
-  EVP_EncryptFinal(&ctx, cipher + out_length, &out_length);
+  EVP_EncryptFinal(&ctx, garbage, &out_length);
 
   EVP_CIPHER_CTX_cleanup(&ctx);
 
