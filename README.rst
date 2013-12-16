@@ -20,7 +20,7 @@ Building
 
 ::
 
-  % cd <checkout-directory> ; mkdir build ; cmake .. ; make
+  % cd <checkout-directory> ; mkdir build ; cd build ; cmake .. ; make
 
 --------
 Examples
@@ -29,3 +29,4 @@ Examples
 Currently, there are the following examples:
 
 * AES-128 CMAC
+* AES-128 GCM
