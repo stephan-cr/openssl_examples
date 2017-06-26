@@ -1,11 +1,8 @@
-cmake_minimum_required(VERSION 2.8.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.0.2)
 
 include(CheckSymbolExists)
 
-include(FindOpenSSL)
-if (NOT OPENSSL_FOUND)
-  message(FATAL_ERROR "openssl not found")
-endif (NOT OPENSSL_FOUND)
+find_package(OpenSSL 1.0.1 REQUIRED)
 
 find_file(OPENSSL_CMAC_HEADER openssl/cmac.h OPENSSL_INCLUDE_DIR)
 if (NOT OPENSSL_CMAC_HEADER)
