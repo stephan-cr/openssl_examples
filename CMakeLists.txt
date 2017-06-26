@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.0.2)
 
+project(OpenSSLExamples C)
+
 include(CheckSymbolExists)
 
 find_package(OpenSSL 1.0.1 REQUIRED)
