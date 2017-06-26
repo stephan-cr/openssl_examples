@@ -7,7 +7,7 @@ Prerequisites
 -------------
 
 * gcc_
-* cmake_ (>= 2.8.0)
+* cmake_ (>= 3.0.2)
 * openssl_ (>= 1.0.0)
 
 .. _gcc: http://gcc.gnu.org
