@@ -28,5 +28,6 @@ Examples
 
 Currently, there are the following examples:
 
+* AES-128 ECB
 * AES-128 CMAC
 * AES-128 GCM
