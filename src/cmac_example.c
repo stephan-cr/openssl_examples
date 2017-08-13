@@ -44,7 +44,7 @@ int main(void)
   unsigned char tag[AES_BLOCK_SIZE];
   ret = CMAC_Final(ctx, tag, &size);
 
-  printf("CMAC_Final = %d, size = %u\n", ret, size);
+  printf("CMAC_Final = %d, size = %zu\n", ret, size);
 
   CMAC_CTX_free(ctx);
 
