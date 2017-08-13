@@ -14,8 +14,6 @@
 #include <openssl/aes.h>
 #include <openssl/evp.h>
 
-static EVP_CIPHER_CTX ctx;
-
 static const unsigned char key[AES_BLOCK_SIZE] =
   "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";
 static const unsigned char plain[AES_BLOCK_SIZE] =
@@ -30,13 +28,16 @@ int main(void)
   int out_length;
   unsigned char garbage[AES_BLOCK_SIZE];
 
-  EVP_EncryptInit(&ctx, EVP_aes_128_gcm(), key, iv);
-  EVP_EncryptUpdate(&ctx, cipher, &out_length, plain, sizeof(plain));
-  EVP_EncryptFinal(&ctx, garbage, &out_length);
+  EVP_CIPHER_CTX *ctx  = EVP_CIPHER_CTX_new();
 
-  EVP_CIPHER_CTX_ctrl(&ctx, EVP_CTRL_GCM_GET_TAG, 16, tag);
+  EVP_EncryptInit(ctx, EVP_aes_128_gcm(), key, iv);
+  EVP_EncryptUpdate(ctx, cipher, &out_length, plain, sizeof(plain));
+  EVP_EncryptFinal(ctx, garbage, &out_length);
 
-  EVP_CIPHER_CTX_cleanup(&ctx);
+  EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, tag);
+
+  EVP_CIPHER_CTX_cleanup(ctx);
+  EVP_CIPHER_CTX_free(ctx);
 
   printf("expected cipher: 0388dace 60b6a392 f328c2b9 71b2fe78\n"
          "got cipher:      ");

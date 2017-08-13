@@ -16,8 +16,6 @@
 #include <openssl/aes.h>
 #include <openssl/evp.h>
 
-static EVP_CIPHER_CTX ctx;
-
 static const unsigned char key[AES_BLOCK_SIZE] =
   "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f";
 static const unsigned char plain[AES_BLOCK_SIZE] =
@@ -29,11 +27,14 @@ int main(void)
   int out_length;
   unsigned char garbage[AES_BLOCK_SIZE];
 
-  EVP_EncryptInit(&ctx, EVP_aes_128_ecb(), key, NULL);
-  EVP_EncryptUpdate(&ctx, cipher, &out_length, plain, sizeof(plain));
-  EVP_EncryptFinal(&ctx, garbage, &out_length);
+  EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
 
-  EVP_CIPHER_CTX_cleanup(&ctx);
+  EVP_EncryptInit(ctx, EVP_aes_128_ecb(), key, NULL);
+  EVP_EncryptUpdate(ctx, cipher, &out_length, plain, sizeof(plain));
+  EVP_EncryptFinal(ctx, garbage, &out_length);
+
+  EVP_CIPHER_CTX_cleanup(ctx);
+  EVP_CIPHER_CTX_free(ctx);
 
   printf("expected: 69c4e0d8 6a7b0430 d8cdb780 70b4c55a\n"
          "got:      ");
