@@ -14,8 +14,7 @@
 #include <openssl/aes.h>
 #include <openssl/cmac.h>
 #include <openssl/evp.h>
-
-static CMAC_CTX *ctx;
+#include <openssl/opensslv.h>
 
 static const unsigned char key[AES_BLOCK_SIZE] =
   "\x2b\x7e\x15\x16\x28\xae\xd2\xa6\xab\xf7\x15\x88\x09\xcf\x4f\x3c";
@@ -30,34 +29,63 @@ int main(void)
 {
   int ret;
 
-  ctx = CMAC_CTX_new();
+#if OPENSSL_VERSION_MAJOR >= 3
+  EVP_MAC *mac = EVP_MAC_fetch(NULL, "CMAC", NULL);
+  EVP_MAC_CTX *ctx = EVP_MAC_CTX_new(mac);
 
-  ret = CMAC_Init(ctx, key, sizeof(key), EVP_aes_128_cbc(), NULL);
+  OSSL_PARAM params[2] = {
+    OSSL_PARAM_construct_utf8_string("cipher", "aes-128-cbc", 0),
+    OSSL_PARAM_construct_end()
+  };
+  ret = EVP_MAC_init(ctx, key, sizeof(key), params);
+  printf("EVP_MAC_init = %d\n", ret);
 
-  printf("CMAC_Init = %d\n", ret);
-
-  ret = CMAC_Update(ctx, data, sizeof(data));
-
-  printf("CMAC_Update = %d\n", ret);
+  ret = EVP_MAC_update(ctx, data, sizeof(data));
+  printf("EVP_MAC_update = %d\n", ret);
 
   size_t size;
   unsigned char tag[AES_BLOCK_SIZE];
-  ret = CMAC_Final(ctx, tag, &size);
+  ret = EVP_MAC_final(ctx, tag, &size, sizeof(tag));
+  printf("EVP_MAC_final = %d\n", ret);
 
-  printf("CMAC_Final = %d, size = %zu\n", ret, size);
-
-  CMAC_CTX_free(ctx);
+  EVP_MAC_CTX_free(ctx);
+  EVP_MAC_free(mac);
 
   printf("expected: 51f0bebf 7e3b9d92 fc497417 79363cfe\n"
          "got:      ");
-  size_t index;
-  for (index = 0; index < sizeof(tag) - 1; ++index) {
+  for (size_t index = 0; index < sizeof(tag) - 1; ++index) {
     printf("%02x", tag[index]);
     if ((index + 1) % 4 == 0) {
       printf(" ");
     }
   }
   printf("%02x\n", tag[sizeof(tag) - 1]);
+#else
+  CMAC_CTX *ctx = CMAC_CTX_new();
+
+  ret = CMAC_Init(ctx, key, sizeof(key), EVP_aes_128_cbc(), NULL);
+  printf("CMAC_Init = %d\n", ret);
+
+  ret = CMAC_Update(ctx, data, sizeof(data));
+  printf("CMAC_Update = %d\n", ret);
+
+  size_t size;
+  unsigned char tag[AES_BLOCK_SIZE];
+  ret = CMAC_Final(ctx, tag, &size);
+  printf("CMAC_Final = %d, size = %zu\n", ret, size);
+
+  CMAC_CTX_free(ctx);
+
+  printf("expected: 51f0bebf 7e3b9d92 fc497417 79363cfe\n"
+         "got:      ");
+  for (size_t index = 0; index < sizeof(tag) - 1; ++index) {
+    printf("%02x", tag[index]);
+    if ((index + 1) % 4 == 0) {
+      printf(" ");
+    }
+  }
+  printf("%02x\n", tag[sizeof(tag) - 1]);
+#endif
 
   return 0;
 }
