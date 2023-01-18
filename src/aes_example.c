@@ -8,7 +8,7 @@
  * National Institute of Standards and Technology (NIST). November 26,
  * 2001. Retrieved October 2, 2012.
  *
- * http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf
+ * https://csrc.nist.gov/csrc/media/publications/fips/197/final/documents/fips-197.pdf
  */
 
 #include <stdio.h>

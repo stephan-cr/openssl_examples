@@ -6,7 +6,7 @@
  * NIST, Recommendation for Block Cipher Modes of Operation: The CMAC
  * Mode for Authentication, Special Publication 800-38B
  *
- * http://csrc.nist.gov/publications/nistpubs/800-38B/SP_800-38B.pdf
+ * https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38b.pdf
  */
 
 #include <stdio.h>

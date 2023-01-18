@@ -5,8 +5,7 @@
  * D. McGrew, J. Viega, The Galois/Counter Mode of Operation (GCM),
  * Natl. Inst. Stand. Technol.
  *
- * http://www.csrc.nist.gov/groups/ST/toolkit/BCM/documents/
- * proposedmodes/gcm/gcm-revised-spec.pdf
+ * https://csrc.nist.rip/groups/ST/toolkit/BCM/documents/proposedmodes/gcm/gcm-revised-spec.pdf
  */
 
 #include <stdio.h>
