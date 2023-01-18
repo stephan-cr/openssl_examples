@@ -11,10 +11,10 @@
 
 #include <stdio.h>
 
-#include <openssl/aes.h>
-#include <openssl/cmac.h>
-#include <openssl/evp.h>
-#include <openssl/opensslv.h>
+#include "openssl/aes.h"
+#include "openssl/cmac.h"
+#include "openssl/evp.h"
+#include "openssl/opensslv.h"
 
 static const unsigned char key[AES_BLOCK_SIZE] =
   "\x2b\x7e\x15\x16\x28\xae\xd2\xa6\xab\xf7\x15\x88\x09\xcf\x4f\x3c";

@@ -11,8 +11,8 @@
 
 #include <stdio.h>
 
-#include <openssl/aes.h>
-#include <openssl/evp.h>
+#include "openssl/aes.h"
+#include "openssl/evp.h"
 
 static const unsigned char key[AES_BLOCK_SIZE] =
   "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";
