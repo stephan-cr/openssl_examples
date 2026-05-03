@@ -16,9 +16,9 @@
 #include "openssl/aes.h"
 #include "openssl/evp.h"
 
-static const unsigned char key[AES_BLOCK_SIZE] =
+static const unsigned char key[AES_BLOCK_SIZE] __attribute__((nonstring)) =
   "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f";
-static const unsigned char plain[AES_BLOCK_SIZE] =
+static const unsigned char plain[AES_BLOCK_SIZE] __attribute__((nonstring)) =
   "\x00\x11\x22\x33\x44\x55\x66\x77\x88\x99\xaa\xbb\xcc\xdd\xee\xff";
 static unsigned char cipher[AES_BLOCK_SIZE];
 
